@@ -37,11 +37,11 @@ describe User do
       context 'when the user does exist' do
         let!(:user) { create(:user, uid: '123456') }
 
-        it 'should not create a new user' do
+        it 'does not create a new user' do
           expect { User.from_omniauth({ 'uid' => '123456', 'info' => { 'nickname' => 'tester' } }) }.to_not change(User, :count).by(1)
         end
 
-        it 'should find the existing user' do
+        it 'finds the existing user' do
           User.from_omniauth({ 'uid' => '123456', 'info' => { 'nickname' => 'tester' } }).id.should == user.id
         end
       end
