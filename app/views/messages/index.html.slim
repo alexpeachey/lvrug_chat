@@ -1,12 +1,16 @@
 - content_for(:title,'Las Vegas Ruby User Group: Live Chat!')
+- content_for(:meta) do
+  meta(name='faye-url' content="#{PUBLISHER.config[:faye_url]}")
 
-.row
-  #chat-window.panel
-    ul#chat-lines
-.row
-  = form_tag '/messages', method: :create do
-    .row.collapse
-      .small-10.columns
-        = text_field_tag :content, '', placeholder: 'Say something to the group...'
-      .small-2.columns
-        = submit_tag 'Say It!', class: 'button prefix'
+-if current_user
+  .row
+    #chat-window.panel
+  .row.collapse
+    .small-10.columns
+      = text_field_tag :message, '', placeholder: 'Say something to the group...'
+    .small-2.columns
+      = submit_tag 'Say It!', class: 'button prefix', id: 'message-button'
+-else
+  .row
+    .panel
+      h1= 'Sign in to start chatting!'
