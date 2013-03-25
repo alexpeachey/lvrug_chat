@@ -1,13 +1,13 @@
 require 'rubygems'
 require 'spork'
 
-Sport.prefork do
+Spork.prefork do
   require "rails/application"
   Spork.trap_method(Rails::Application, :reload_routes!)
   Spork.trap_method(Rails::Application, :eager_load!)
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
-  Rails.application.railsties.all { |r| r.eager_load! }
+  Rails.application.railties.all { |r| r.eager_load! }
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'factory_girl'
