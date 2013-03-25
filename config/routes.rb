@@ -1,6 +1,8 @@
 LvrugChat::Application.routes.draw do
 
+  root to: 'messages#index'
   match 'auth/twitter/callback', to: 'sessions#create'
+  resources :messages, only: [:index, :create]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
