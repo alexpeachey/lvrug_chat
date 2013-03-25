@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :user do
-    uid "MyString"
-    name "MyString"
+    sequence(:uid) {|n| "uid#{n}"}
+    sequence(:name) {|n| "user#{n}"}
   end
 end
