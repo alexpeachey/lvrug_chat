@@ -1,0 +1,1 @@
+PUBLISHER = Publisher.new
