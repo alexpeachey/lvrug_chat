@@ -22,7 +22,7 @@ head
   = csrf_meta_tag
 
 body
-
+  = render 'shared/header'
   == yield
 
-  = javascript_include_tag "application", "/faye/faye.js"
+  = javascript_include_tag "/faye/faye.js", "application"
