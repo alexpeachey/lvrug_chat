@@ -59,8 +59,19 @@ Spork.prefork do
     #     --seed 1234
     config.order = "random"
   end
+  OmniAuth.config.test_mode = true
 end
 
 Spork.each_run do
   FactoryGirl.reload
+end
+
+def login_with(provider, mock_options = nil)
+  if mock_options == :invalid_credentials
+    OmniAuth.config.mock_auth[provider] = :invalid_credentials
+  elsif mock_options
+    OmniAuth.config.add_mock provider, mock_options
+  end
+
+  get "/auth/#{provider}"
 end

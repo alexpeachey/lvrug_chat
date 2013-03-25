@@ -1,23 +1,16 @@
 class MessagesController < ApplicationController
 
   def index
-    respond_to do |format|
-      format.html
-      format.json { render json: @messages }
-    end
   end
 
   def create
-    @message = Message.new(params[:message])
-
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render json: @message, status: :created, location: @message }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+    if current_user
+      name = current_user.name
+      message = ActionController::Base.helpers.sanitize(params['message'])
+      PUBLISHER.publish('/chat', {name: name, message: message}.to_json)
+      head :ok
+    else
+      head :unauthorized
     end
   end
 end
