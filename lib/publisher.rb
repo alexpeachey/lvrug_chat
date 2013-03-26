@@ -1,17 +1,19 @@
 class Publisher
 
-  attr_accessor :config
-
-  def initialize
-    @config = {}
-    yaml = YAML.load_file(File.join(Rails.root,'config','faye.yml'))[Rails.env]
-    raise ArgumentError, "The #{Rails.env} environment does not exist in faye.yml" if yaml.nil?
-    yaml.each { |k, v| config[k.to_sym] = v }
+  def publish(channel, message)
+    client = Faye::Client.new(FAYE_URL)
+    client.add_extension(ClientAuth.new)
+    client.publish(channel, message)
   end
 
-  def publish(channel, message)
-    client = Faye::Client.new(config[:faye_url])
-    client.publish(channel, message)
+  class ClientAuth
+    def outgoing(message, callback)
+      if message['channel'] !~ %r{^/meta/}
+        message['ext'] ||= {}
+        message['ext']['auth_token'] = FAYE_TOKEN
+      end
+      callback.call(message)
+    end
   end
 
 end

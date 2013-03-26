@@ -10,6 +10,7 @@ describe Publisher do
 
     it 'posts a message to faye' do
       client.stub(:publish)
+      client.stub(:add_extension)
       Faye::Client.stub(:new).and_return(client)
       client.should_receive(:publish).with(channel, message)
       publisher.publish(channel, message)
