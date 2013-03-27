@@ -11,6 +11,9 @@
       ul.right
         li.divider
         -if current_user
-          li= current_user.name
+          li.has-dropdown
+            = link_to current_user.name, '#'
+            ul.dropdown
+              li= link_to 'Sign Out', signout_path
         -else
           li= link_to 'Sign In With Twitter', '/auth/twitter'
