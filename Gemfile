@@ -8,6 +8,7 @@ gem 'faye'
 gem 'slim-rails'
 gem 'strong_parameters'
 gem 'omniauth-twitter'
+gem 'gemoji'
 
 
 # Gems used only for assets and not required

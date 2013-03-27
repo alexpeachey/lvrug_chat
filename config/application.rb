@@ -63,6 +63,7 @@ module LvrugChat
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # The only good way to do css
     config.sass.preferred_syntax = :sass
 
     # Version of your assets, change this if you want to expire all your assets

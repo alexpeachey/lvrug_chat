@@ -5,12 +5,16 @@ class Chat
     @faye.subscribe '/chat', @processMessage
     @wireChatInput()
 
+  interpretEmoji: (message) =>
+    message.replace(/:(\w+):/g, '<img src="/images/emoji/$1.png">')
+
   processMessage: (data) =>
     @insertMessage(@buildMessage(JSON.parse(data)))
 
   buildMessage: (data) =>
     now = new Date().toISOString()
-    "<div class='row message'><div class='small-2 columns'><span class='label round'>#{data.name}</span><time class='timeago' datetime='#{now}'>#{now}</time></div><div class='small-10 columns'><div class='alert-box secondary'>#{data.message}</div></div></div>"
+    message = @interpretEmoji(data.message)
+    "<div class='row message'><div class='small-2 columns'><span class='label round'>#{data.name}</span><time class='timeago' datetime='#{now}'>#{now}</time></div><div class='small-10 columns'><div class='alert-box secondary'>#{message}</div></div></div>"
 
   insertMessage: (message) =>
     $('#chat-window').append(message)
